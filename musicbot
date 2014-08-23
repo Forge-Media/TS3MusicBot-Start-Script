@@ -1,0 +1,39 @@
+#!/bin/bash
+# Script for TS3MusicBot on Centos Linux
+# Written for forgegaming.net, use on your own risk. 
+# by Jeremy Paton - Forge Media
+
+### BEGIN INIT INFO
+# Description:    Starts the TS3MusicBot server
+### END INIT INFO
+
+mc_start() {
+if screen -list | grep "TS3MusicBot"
+then
+echo "Error: TS3MusicBot Is Already Running. Stopping ...."
+mc_stop
+else
+
+
+cd TS3MusicBot/
+screen -S 'TS3MusicBot' -d -m ./TS3MusicBot_runscript.sh -account email@domain.net -port 8000 -webif-pw websitepass -webif-pw-user tsuserpass
+echo "TS3MusicBot Started!"
+fi
+}
+
+mc_stop() {
+  screen -X -S TS3MusicBot quit
+echo "TS3MusicBot Stopped!"
+}
+
+case "$1" in
+  start)
+    mc_start
+    ;;
+  stop)
+    mc_stop
+    ;;
+  *)
+    echo "Usage: TS3MusicBot {start|stop}"
+    ;;
+esac
